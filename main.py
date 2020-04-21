@@ -101,7 +101,7 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
         if self.request.get('button') == 'Post':
             post = Post(
                 caption = caption,
-                image = blobinfo,
+                image = upload.key(),
                 date = datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
                 user = currentUser.key
             )

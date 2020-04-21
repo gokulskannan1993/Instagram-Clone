@@ -12,23 +12,25 @@
   </head>
   <body>
     <div class="container">
-        <div class="jumbotron">
-            {% if user: %}
-            <p>Name: {{currentUser.name}}</p>
-            <p>Email: {{currentUser.email}}</p>
-            <p>Followers: {{followers}}  ||  Following: {{following}}</p>
-            {% endif %}
-            <p><a href="{{url}}" class="btn btn-secondary btn-lg">{{url_string}} </a></p>
-        </div>
-        <div class="jumbotron">
+        <div class="jumbotron" style="display:flex;">
+          <section style="padding: 1em;">
+              {% if user: %}
+              <p>Name: {{currentUser.name}}</p>
+              <p>Email: {{currentUser.email}}</p>
+              <p>Followers: {{followers}}  ||  Following: {{following}}</p>
+              {% endif %}
+              <p><a href="{{url}}" class="btn btn-secondary btn-lg">{{url_string}} </a></p>
+          </section>
+          <section style="padding: 0em 0em 0em 16em;">
             {%if user:%}
             <h3>Upload Photo</h3>
-            <form class="form-group" action="{{upload_url}}" method="post" >
-              <textarea name="caption" rows="5" cols="80" maxlength="200" placeholder="max. 200 Characters"></textarea><br><br>
+            <form class="form-group" action="{{upload_url}}" method="post" enctype="multipart/form-data" >
+              <textarea name="caption" rows="5" cols="50" maxlength="200" placeholder="max. 200 Characters"></textarea><br><br>
               <input type="file" name="file"><br><br>
               <input type="submit" name="button" value="Post" class="btn btn-secondary btn-lg">
             </form>
             {%endif%}
+          </section>
         </div>
     </div>
 
