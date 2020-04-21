@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <title>Home</title>
+  </head>
+  <body>
+    <div class="container">
+        <div class="jumbotron">
+            {% if user: %}
+            <p>Name: {{currentUser.name}}</p>
+            <p>Email: {{currentUser.email}}</p>
+            <p>Followers: {{followers}}  ||  Following: {{following}}</p>
+            {% endif %}
+            <p><a href="{{url}}" class="btn btn-secondary btn-lg">{{url_string}} </a></p>
+        </div>
+        <div class="jumbotron">
+            {%if user:%}
+            <h3>Upload Photo</h3>
+            <form class="form-group" action="{{upload_url}}" method="post" >
+              <textarea name="caption" rows="5" cols="80" maxlength="200" placeholder="max. 200 Characters"></textarea><br><br>
+              <input type="file" name="file"><br><br>
+              <input type="submit" name="button" value="Post" class="btn btn-secondary btn-lg">
+            </form>
+            {%endif%}
+        </div>
+    </div>
+
+
+  </body>
+</html>
