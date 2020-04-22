@@ -6,7 +6,9 @@ from google.appengine.api import users
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 from datetime import datetime
-
+from profile import Profile
+from downloadHandler import DownloadHandler
+from uploadHandler import UploadHandler
 from models import *
 
 JINJA_ENVIRONMENT = jinja2.Environment(
@@ -63,9 +65,6 @@ class MainPage(webapp2.RequestHandler):
                 followers = len(currentUser.followers)
                 following = len(currentUser.following)
 
-
-
-
         else:
             url = users.create_login_url(self.request.uri)
             url_string = 'Login'
@@ -75,7 +74,6 @@ class MainPage(webapp2.RequestHandler):
             'url' : url,
             'url_string' : url_string,
             'user' : user,
-            'welcome': welcome,
             'currentUser':currentUser,
             'followers': followers,
             'following': following,
@@ -88,39 +86,14 @@ class MainPage(webapp2.RequestHandler):
         self.response.write(template.render(template_values))
 
 
-# class to handle the uploads
-class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
-    def post(self):
-        user = users.get_current_user()
-        currentUser = ndb.Key('User',user.user_id()).get()
-
-        upload = self.get_uploads()[0]
-        blobinfo = blobstore.BlobInfo(upload.key())
-        caption = self.request.get('caption')
-
-        if self.request.get('button') == 'Post':
-            post = Post(
-                caption = caption,
-                image = upload.key(),
-                date = datetime.now().strftime("%d/%m/%Y %H:%M:%S"),
-                user = currentUser.key
-            )
-            post.put()
-            currentUser.posts.append(post.key)
-            currentUser.put()
-            self.redirect('/')
-
-
-
-
-
 
 
 app = webapp2.WSGIApplication(
             [
             ('/', MainPage),
             ('/upload', UploadHandler),
-
+            ('/profile', Profile),
+            ('/download', DownloadHandler)
 
             ],
 

@@ -15,18 +15,19 @@
         <div class="jumbotron" style="display:flex;">
           <section style="padding: 1em;">
               {% if user: %}
-              <p>Name: {{currentUser.name}}</p>
+              <p>Name: {{currentUser.name}}  <a href="/profile?key={{currentUser.key.urlsafe()}}" class="btn btn-secondary btn-lg">View Profile</a> </p>
               <p>Email: {{currentUser.email}}</p>
               <p>Followers: {{followers}}  ||  Following: {{following}}</p>
+
               {% endif %}
               <p><a href="{{url}}" class="btn btn-secondary btn-lg">{{url_string}} </a></p>
           </section>
           <section style="padding: 0em 0em 0em 16em;">
             {%if user:%}
-            <h3>Upload Photo</h3>
+            <h3>Create Post</h3>
             <form class="form-group" action="{{upload_url}}" method="post" enctype="multipart/form-data" >
-              <textarea name="caption" rows="5" cols="50" maxlength="200" placeholder="max. 200 Characters"></textarea><br><br>
-              <input type="file" name="file"><br><br>
+              <textarea name="caption" rows="5" cols="50" maxlength="200" placeholder="Max. 200 Characters"></textarea><br><br>
+              <input type="file" name="file" accept="image/jpeg,image/x-png"><br><br>
               <input type="submit" name="button" value="Post" class="btn btn-secondary btn-lg">
             </form>
             {%endif%}
