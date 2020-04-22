@@ -11,6 +11,8 @@ from downloadHandler import DownloadHandler
 from uploadHandler import UploadHandler
 from models import *
 
+from search import Search
+
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.path.dirname(__file__)),
     extensions = ['jinja2.ext.autoescape'],
@@ -30,14 +32,7 @@ class MainPage(webapp2.RequestHandler):
         # initializing the strings and values
         url = ''
         url_string = ''
-        welcome = 'Welcome back'
         currentUser = None
-        followers = 0
-        following = 0
-
-
-
-
 
         # determine if we have a user logged in or not.
         if user:
@@ -56,14 +51,11 @@ class MainPage(webapp2.RequestHandler):
                 myuser = User(
                     id = user.user_id(),
                     email = user.email(),
-                    name = username
+                    name = username.lower()
                      )
                 myuser.put()
                 userKey = ndb.Key('User',user.user_id())
                 currentUser = userKey.get()
-            else:
-                followers = len(currentUser.followers)
-                following = len(currentUser.following)
 
         else:
             url = users.create_login_url(self.request.uri)
@@ -75,8 +67,6 @@ class MainPage(webapp2.RequestHandler):
             'url_string' : url_string,
             'user' : user,
             'currentUser':currentUser,
-            'followers': followers,
-            'following': following,
             'upload_url' : blobstore.create_upload_url('/upload'),
 
 
@@ -86,15 +76,12 @@ class MainPage(webapp2.RequestHandler):
         self.response.write(template.render(template_values))
 
 
-
-
 app = webapp2.WSGIApplication(
             [
             ('/', MainPage),
             ('/upload', UploadHandler),
             ('/profile', Profile),
-            ('/download', DownloadHandler)
-
+            ('/download', DownloadHandler),
+            ('/search', Search)
             ],
-
         )

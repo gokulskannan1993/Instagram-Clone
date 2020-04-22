@@ -1,40 +1,55 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <!-- Required meta tags -->
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>Home</title>
-  </head>
-  <body>
-    <div class="container">
-        <div class="jumbotron" style="display:flex;">
-          <section style="padding: 1em;">
-              {% if user: %}
-              <p>Name: {{currentUser.name}}  <a href="/profile?key={{currentUser.key.urlsafe()}}" class="btn btn-secondary btn-lg">View Profile</a> </p>
-              <p>Email: {{currentUser.email}}</p>
-              <p>Followers: {{followers}}  ||  Following: {{following}}</p>
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-              {% endif %}
-              <p><a href="{{url}}" class="btn btn-secondary btn-lg">{{url_string}} </a></p>
-          </section>
-          <section style="padding: 0em 0em 0em 16em;">
-            {%if user:%}
-            <h3>Create Post</h3>
-            <form class="form-group" action="{{upload_url}}" method="post" enctype="multipart/form-data" >
-              <textarea name="caption" rows="5" cols="50" maxlength="200" placeholder="Max. 200 Characters"></textarea><br><br>
-              <input type="file" name="file" accept="image/jpeg,image/x-png"><br><br>
-              <input type="submit" name="button" value="Post" class="btn btn-secondary btn-lg">
-            </form>
-            {%endif%}
-          </section>
-        </div>
+  <title>Home</title>
+</head>
+
+<body>
+  <div class="container">
+    <!-- show the navbar with search option -->
+    {% if user: %}
+    <nav class="navbar navbar-light bg-light">
+      <form class="form-inline my-2 my-lg-0" method="get" action="/search">
+        <input class="form-control mr-sm-2" type="search" name="queryInput" placeholder="Search User" aria-label="Search">
+        <input type="submit" name="button" value="Search" class="btn btn-outline-success my-2 my-sm-0">
+      </form>
+    </nav>
+    {% endif %}
+
+    <div class="jumbotron" style="display:flex;">
+      <section style="padding: 1em;">
+        <!-- user details -->
+        {% if user: %}
+        <p>Name: {{currentUser.name}} <a href="/profile?key={{currentUser.key.urlsafe()}}" class="btn btn-secondary btn-lg">View Profile</a> </p>
+        <p>Email: {{currentUser.email}}</p>
+
+        {% endif %}
+        <p><a href="{{url}}" class="btn btn-secondary btn-lg">{{url_string}} </a></p>
+      </section>
+
+      <!-- section to create a post -->
+      <section style="padding: 0em 0em 0em 16em;">
+        {%if user:%}
+        <h3>Create Post</h3>
+        <form class="form-group" action="{{upload_url}}" method="post" enctype="multipart/form-data">
+          <textarea name="caption" rows="5" cols="50" maxlength="200" placeholder="Max. 200 Characters"></textarea><br><br>
+          <input type="file" name="file" accept="image/jpeg,image/x-png"><br><br>
+          <input type="submit" name="button" value="Post" class="btn btn-secondary btn-lg">
+        </form>
+        {%endif%}
+      </section>
     </div>
+  </div>
 
 
-  </body>
+</body>
+
 </html>

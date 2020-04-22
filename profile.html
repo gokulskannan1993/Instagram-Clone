@@ -15,35 +15,34 @@
 <body>
 
   <div class="container">
+    <nav class="navbar navbar-light bg-light">
+      <a href="/" class="nav-link">Home</a>
+    </nav>
     <div class="jumbotron" style="display:flex;">
+
       <section style="padding: 1em;">
         <p>Name: {{selectedUser.name}}</p>
         <p>Email: {{selectedUser.email}}</p>
         <p>Followers: {{followers}} || Following: {{following}}</p>
-        {%if currentUser == selectedUser:%}
-        <p><a href="/" class="btn btn-secondary btn-lg">Go Home</a></p>
-        {%else:%}
+        {%if currentUser != selectedUser:%}
         <p>
-          <a href="/" class="btn btn-secondary btn-lg">Go Home</a>
           <form action="/profile?currentUser={{currentUser.key.urlsafe()}}&selectedUser={{selectedUser.key.urlsafe()}}" method="post">
-            <input type="submit" name="button" value="Follow" class="btn btn-primary">
+            <input type="submit" name="button" value="{{followString}}" class="btn btn-primary">
           </form>
         </p>
         {%endif%}
       </section>
     </div>
-    <div class="jumbotron">
-      {%for post in allPosts%}
-      <section class="jumbotron" style="border: 1px solid grey;">
-        <h4>@{{selectedUser.name}}</h4>
-        <figure style="padding: 1em;">
-          <figcaption>{{post.caption}}</figcaption>
-          <img src="/download?post={{post.key.id()}}" alt="{{post.caption}}" style="width:100%">
-          <figcaption>{{post.date}}</figcaption>
-        </figure>
-      </section>
-      {%endfor%}
-    </div>
+    {%for post in allPosts%}
+    <section class="jumbotron" style=" width: 65%; margin-left: 10em;">
+      <h4>@{{selectedUser.name}}</h4>
+      <figure style="padding: 1em;">
+        <figcaption>{{post.caption}}</figcaption>
+        <img src="/download?post={{post.key.id()}}" alt="{{post.caption}}" style="width:100%">
+        <figcaption>{{post.date}}</figcaption>
+      </figure>
+    </section>
+    {%endfor%}
   </div>
 </body>
 

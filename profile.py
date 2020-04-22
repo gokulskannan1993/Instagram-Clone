@@ -25,10 +25,17 @@ class Profile(webapp2.RequestHandler):
         # fetching the selectedUser
         selectedUser = ndb.Key(urlsafe=(self.request.get('key'))).get()
 
+        followString = 'Follow'
+
         # fetching all the posts of selectedUser
         allPosts = []
         for post in selectedUser.posts:
             allPosts.insert(0, post.get())
+
+        # check if the currentUser follows selectedUser
+        if selectedUser.key in currentUser.following:
+            followString = 'Unfollow'
+
 
 
 
@@ -38,7 +45,8 @@ class Profile(webapp2.RequestHandler):
             'currentUser': currentUser,
             'followers': len(selectedUser.followers),
             'following': len(selectedUser.following),
-            'allPosts': allPosts
+            'allPosts': allPosts,
+            'followString': followString
         }
 
         template = JINJA_ENVIRONMENT.get_template('profile.html')
