@@ -89,6 +89,33 @@ class MainPage(webapp2.RequestHandler):
         self.response.headers['Content-Type'] = 'text/html'
 
 
+        # fetching current user
+        user = users.get_current_user()
+        currentUser = ndb.Key('User',user.user_id()).get()
+
+
+        # if the user wants to add comment
+        if self.request.get('button') == 'Add Comment':
+            # retrieve the post
+            postKey = self.request.get('postKey')
+            post = ndb.Key('Post',int(postKey)).get()
+
+            # retieve the text
+            commentText = self.request.get('addComment')
+
+            if commentText:
+                comment = Comment(
+                    text = commentText,
+                    author = currentUser.key
+                )
+                post.comments.insert(0, comment)
+                post.put()
+
+            self.redirect('/')
+
+
+
+
 
 app = webapp2.WSGIApplication(
             [

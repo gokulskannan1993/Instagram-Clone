@@ -9,7 +9,7 @@
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-  <title>Profile</title>
+  <title>{{followString}}</title>
 </head>
 
 <body>
@@ -30,7 +30,7 @@
       <h4>Followers</h4>
       {%if selectedUser.followers%}
       {%for profile in selectedUser.followers%}
-      <p><a href="/profile?key={{profile.get().key.urlsafe()}}" class="btn btn-lg btn-primary">{{profile.get().name}}: @{{profile.get().email}}</a></p>
+      <p><a href="/profile?key={{profile.get().key.urlsafe()}}" class="btn btn-lg btn-primary">{{profile.get().name}}: {{profile.get().email}}</a></p>
       {%endfor%}
       {%else%}
       <p>No Followers</p>
@@ -39,7 +39,7 @@
       <h4>Following</h4>
       {%if selectedUser.following%}
       {%for profile in selectedUser.following%}
-      <p><a href="/profile?key={{profile.get().key.urlsafe()}}" class="btn btn-lg btn-primary">{{profile.get().name}}: @{{profile.get().email}}</a></p>
+      <p><a href="/profile?key={{profile.get().key.urlsafe()}}" class="btn btn-lg btn-primary">{{profile.get().name}}: {{profile.get().email}}</a></p>
       {%endfor%}
       {%else%}
       <p>No Following</p>

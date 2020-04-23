@@ -29,7 +29,7 @@
       <h4>Search Results</h4>
       {%if searchedOutput%}
       {%for profile in searchedOutput%}
-      <p><a href="/profile?key={{profile.key.urlsafe()}}" class="btn btn-lg btn-primary">{{profile.name}}: @{{profile.email}}</a></p>
+      <p><a href="/profile?key={{profile.key.urlsafe()}}" class="btn btn-lg btn-primary">{{profile.name}}: {{profile.email}}</a></p>
       {%endfor%}
       {%else%}
       <p>No Match Found</p>

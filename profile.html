@@ -46,7 +46,7 @@
 
     <!-- section for posts -->
     {%for post in allPosts%}
-    <form action="index.html" method="post">
+    <form action="/profile?currentUser={{currentUser.key.urlsafe()}}&selectedUser={{selectedUser.key.urlsafe()}}" method="post">
       <section class="jumbotron" style=" width: 65%; margin-left: 10em;">
         <h4>@{{post.user.get().name}}</h4>
         <figure style="padding: 1em;">
@@ -54,7 +54,8 @@
           <img src="/download?post={{post.key.id()}}" alt="{{post.caption}}" style="width:100%">
           <figcaption>{{post.date}}</figcaption>
           <div class="input-group mb-3">
-            <input type="text" class="form-control" name="addComment" placeholder="Add Comment" aria-label="Add Comment" aria-describedby="basic-addon2">
+            <input type="hidden" name="postKey" value="{{post.key.id()}}">
+            <input type="text" class="form-control" maxlength="200" name="addComment" placeholder="Add Comment" aria-label="Add Comment" aria-describedby="basic-addon2">
             <div class="input-group-append">
               <input type="submit" name="button" value="Add Comment" class="input-group-append input-group-text">
             </div>

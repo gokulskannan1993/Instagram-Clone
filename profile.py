@@ -6,6 +6,8 @@ from google.appengine.api import users
 from google.appengine.ext import blobstore
 from google.appengine.ext.webapp import blobstore_handlers
 
+from models import *
+
 
 JINJA_ENVIRONMENT = jinja2.Environment(
     loader = jinja2.FileSystemLoader(os.path.dirname(__file__)),
@@ -62,6 +64,8 @@ class Profile(webapp2.RequestHandler):
         # fetching the selectedUser
         selectedUser = ndb.Key(urlsafe=(self.request.get('selectedUser'))).get()
 
+
+        # if the user wants to follow
         if self.request.get('button') == 'Follow':
             # adding the currentUser to selectedUser followers
             selectedUser.followers.append(currentUser.key)
@@ -73,7 +77,9 @@ class Profile(webapp2.RequestHandler):
 
             self.redirect('/profile?key='+str(selectedUser.key.urlsafe()))
 
-        if self.request.get('button') == 'Unfollow':
+
+        # if the user wants to unfollow
+        elif self.request.get('button') == 'Unfollow':
 
             # removing the currentUser from selectedUser
             selectedUser.followers.remove(currentUser.key)
@@ -82,5 +88,25 @@ class Profile(webapp2.RequestHandler):
             # removing selectedUser to currentUser Following
             currentUser.following.remove(selectedUser.key)
             currentUser.put()
+
+            self.redirect('/profile?key='+str(selectedUser.key.urlsafe()))
+
+
+        # if the user wants to add comment
+        elif self.request.get('button') == 'Add Comment':
+            # retrieve the post
+            postKey = self.request.get('postKey')
+            post = ndb.Key('Post',int(postKey)).get()
+
+            # retieve the text
+            commentText = self.request.get('addComment')
+
+            if commentText:
+                comment = Comment(
+                    text = commentText,
+                    author = currentUser.key
+                )
+                post.comments.insert(0, comment)
+                post.put()
 
             self.redirect('/profile?key='+str(selectedUser.key.urlsafe()))
