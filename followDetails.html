@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <!-- Required meta tags -->
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <!-- Bootstrap CSS -->
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+  <title>Profile</title>
+</head>
+
+<body>
+
+  <!-- navbar stuff -->
+  <div class="container">
+    <nav class="navbar navbar-light bg-light">
+      <a href="/" class="btn btn-secondary btn-lg">Home</a>
+      <a href="/profile?key={{currentUser.key.urlsafe()}}" class="btn btn-secondary btn-lg">My Profile</a>
+      <form class="form-inline my-2 my-lg-0" method="get" action="/search">
+        <input class="form-control mr-sm-2" type="search" name="queryInput" placeholder="Search User" aria-label="Search">
+        <input type="submit" name="button" value="Search" class="btn btn-outline-success my-2 my-sm-0">
+      </form>
+    </nav>
+    <section class="jumbotron" style=" width: 65%; margin-left: 10em;">
+      <!-- shows results -->
+      {%if followString == 'followers'%}
+      <h4>Followers</h4>
+      {%if selectedUser.followers%}
+      {%for profile in selectedUser.followers%}
+      <p><a href="/profile?key={{profile.get().key.urlsafe()}}" class="btn btn-lg btn-primary">{{profile.get().name}}: @{{profile.get().email}}</a></p>
+      {%endfor%}
+      {%else%}
+      <p>No Followers</p>
+      {%endif%}
+      {%else:%}
+      <h4>Following</h4>
+      {%if selectedUser.following%}
+      {%for profile in selectedUser.following%}
+      <p><a href="/profile?key={{profile.get().key.urlsafe()}}" class="btn btn-lg btn-primary">{{profile.get().name}}: @{{profile.get().email}}</a></p>
+      {%endfor%}
+      {%else%}
+      <p>No Following</p>
+      {%endif%}
+      {%endif%}
+
+    </section>
+</body>
+
+</html>

@@ -10,6 +10,7 @@ from profile import Profile
 from downloadHandler import DownloadHandler
 from uploadHandler import UploadHandler
 from models import *
+from followDetails import FollowDetails
 
 from search import Search
 
@@ -84,6 +85,10 @@ class MainPage(webapp2.RequestHandler):
         template = JINJA_ENVIRONMENT.get_template('main.html')
         self.response.write(template.render(template_values))
 
+    def post(self):
+        self.response.headers['Content-Type'] = 'text/html'
+
+
 
 app = webapp2.WSGIApplication(
             [
@@ -91,6 +96,7 @@ app = webapp2.WSGIApplication(
             ('/upload', UploadHandler),
             ('/profile', Profile),
             ('/download', DownloadHandler),
-            ('/search', Search)
+            ('/search', Search),
+            ('/followDetails', FollowDetails)
             ],
         )

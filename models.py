@@ -16,7 +16,6 @@ class Comment(ndb.Model):
 class Post(ndb.Model):
     caption = ndb.StringProperty()
     image = ndb.BlobKeyProperty()
-    likes = ndb.KeyProperty(repeated=True)
     comments = ndb.StructuredProperty(Comment, repeated=True)
     date = ndb.StringProperty()
     user = ndb.KeyProperty()
