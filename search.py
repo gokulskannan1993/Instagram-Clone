@@ -37,7 +37,9 @@ class Search(webapp2.RequestHandler):
 
 
         template_values = {
-          'searchedOutput': searchedOutput
+          'searchedOutput': searchedOutput,
+          'currentUser': currentUser,
+
         }
 
         template = JINJA_ENVIRONMENT.get_template('search.html')

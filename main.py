@@ -33,6 +33,7 @@ class MainPage(webapp2.RequestHandler):
         url = ''
         url_string = ''
         currentUser = None
+        allPosts = []
 
         # determine if we have a user logged in or not.
         if user:
@@ -56,6 +57,13 @@ class MainPage(webapp2.RequestHandler):
                 myuser.put()
                 userKey = ndb.Key('User',user.user_id())
                 currentUser = userKey.get()
+            else:
+                # select all posts in reverse chronological order
+                query = Post.query().order(-Post.date).fetch()
+                for post in query:
+                    if post.user == currentUser.key or post.user in currentUser.following:
+                        if len(allPosts) <= 50:
+                            allPosts.append(post)
 
         else:
             url = users.create_login_url(self.request.uri)
@@ -68,6 +76,7 @@ class MainPage(webapp2.RequestHandler):
             'user' : user,
             'currentUser':currentUser,
             'upload_url' : blobstore.create_upload_url('/upload'),
+            'allPosts'  : allPosts
 
 
         }

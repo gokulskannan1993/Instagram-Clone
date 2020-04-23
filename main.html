@@ -17,6 +17,7 @@
     <!-- show the navbar with search option -->
     {% if user: %}
     <nav class="navbar navbar-light bg-light">
+      <p><a href="/profile?key={{currentUser.key.urlsafe()}}" class="btn btn-secondary btn-lg">My Profile</a> </p>
       <form class="form-inline my-2 my-lg-0" method="get" action="/search">
         <input class="form-control mr-sm-2" type="search" name="queryInput" placeholder="Search User" aria-label="Search">
         <input type="submit" name="button" value="Search" class="btn btn-outline-success my-2 my-sm-0">
@@ -28,11 +29,11 @@
       <section style="padding: 1em;">
         <!-- user details -->
         {% if user: %}
-        <p>Name: {{currentUser.name}} <a href="/profile?key={{currentUser.key.urlsafe()}}" class="btn btn-secondary btn-lg">View Profile</a> </p>
-        <p>Email: {{currentUser.email}}</p>
+        <p>Name: {{currentUser.name}}
+          <p>Email: {{currentUser.email}}</p>
 
-        {% endif %}
-        <p><a href="{{url}}" class="btn btn-secondary btn-lg">{{url_string}} </a></p>
+          {% endif %}
+          <p><a href="{{url}}" class="btn btn-secondary btn-lg">{{url_string}} </a></p>
       </section>
 
       <!-- section to create a post -->
@@ -46,7 +47,21 @@
         </form>
         {%endif%}
       </section>
+
+
+
     </div>
+    <!-- section for posts -->
+    {%for post in allPosts%}
+    <section class="jumbotron" style=" width: 65%; margin-left: 10em;">
+      <h4>@{{post.user.get().name}}</h4>
+      <figure style="padding: 1em;">
+        <figcaption>{{post.caption}}</figcaption>
+        <img src="/download?post={{post.key.id()}}" alt="{{post.caption}}" style="width:100%">
+        <figcaption>{{post.date}}</figcaption>
+      </figure>
+    </section>
+    {%endfor%}
   </div>
 
 

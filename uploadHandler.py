@@ -32,6 +32,6 @@ class UploadHandler(blobstore_handlers.BlobstoreUploadHandler):
             post.put()
 
             # adding the key of the post to user
-            currentUser.posts.append(post.key)
+            currentUser.posts.insert(0,post.key)
             currentUser.put()
             self.redirect('/')

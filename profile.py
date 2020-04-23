@@ -30,7 +30,7 @@ class Profile(webapp2.RequestHandler):
         # fetching all the posts of selectedUser
         allPosts = []
         for post in selectedUser.posts:
-            allPosts.insert(0, post.get())
+            allPosts.append(post.get())
 
         # check if the currentUser follows selectedUser
         if selectedUser.key in currentUser.following:
@@ -54,3 +54,33 @@ class Profile(webapp2.RequestHandler):
 
     def post(self):
         self.response.headers['Content-Type'] = 'text/html'
+
+
+        # fetching current user
+        currentUser =  ndb.Key(urlsafe=(self.request.get('currentUser'))).get()
+
+        # fetching the selectedUser
+        selectedUser = ndb.Key(urlsafe=(self.request.get('selectedUser'))).get()
+
+        if self.request.get('button') == 'Follow':
+            # adding the currentUser to selectedUser followers
+            selectedUser.followers.append(currentUser.key)
+            selectedUser.put()
+
+            # adding selectedUser to currentUser Following
+            currentUser.following.append(selectedUser.key)
+            currentUser.put()
+
+            self.redirect('/profile?key='+str(selectedUser.key.urlsafe()))
+
+        if self.request.get('button') == 'Unfollow':
+
+            # removing the currentUser from selectedUser
+            selectedUser.followers.remove(currentUser.key)
+            selectedUser.put()
+
+            # removing selectedUser to currentUser Following
+            currentUser.following.remove(selectedUser.key)
+            currentUser.put()
+
+            self.redirect('/profile?key='+str(selectedUser.key.urlsafe()))

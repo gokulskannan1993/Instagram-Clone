@@ -13,14 +13,19 @@
 </head>
 
 <body>
-
+  <!-- navbar section -->
   <div class="container">
     <nav class="navbar navbar-light bg-light">
-      <a href="/" class="nav-link">Home</a>
+      <a href="/" class="btn btn-secondary btn-lg">Home</a>
+      <p><a href="/profile?key={{currentUser.key.urlsafe()}}" class="btn btn-secondary btn-lg">My Profile</a> </p>
+      <form class="form-inline my-2 my-lg-0" method="get" action="/search">
+        <input class="form-control mr-sm-2" type="search" name="queryInput" placeholder="Search User" aria-label="Search">
+        <input type="submit" name="button" value="Search" class="btn btn-outline-success my-2 my-sm-0">
+      </form>
     </nav>
 
     <section class="jumbotron" style=" width: 65%; margin-left: 10em;">
-
+      <!-- shows results -->
       <h4>Search Results</h4>
       {%if searchedOutput%}
       {%for profile in searchedOutput%}
