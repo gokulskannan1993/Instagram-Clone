@@ -49,7 +49,6 @@ class MainPage(webapp2.RequestHandler):
 
 
             if currentUser == None:
-                welcome = 'Welcome to the application'
                 myuser = User(
                     id = user.user_id(),
                     email = user.email(),
@@ -63,8 +62,7 @@ class MainPage(webapp2.RequestHandler):
                 query = Post.query().order(-Post.date).fetch()
                 for post in query:
                     if post.user == currentUser.key or post.user in currentUser.following:
-                        if len(allPosts) <= 50:
-                            allPosts.append(post)
+                        allPosts.append(post)
 
         else:
             url = users.create_login_url(self.request.uri)
@@ -78,7 +76,6 @@ class MainPage(webapp2.RequestHandler):
             'currentUser':currentUser,
             'upload_url' : blobstore.create_upload_url('/upload'),
             'allPosts'  : allPosts
-
 
         }
 
